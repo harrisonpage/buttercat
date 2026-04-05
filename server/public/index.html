@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.ServerName}} — Buttercat Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+    <link rel="stylesheet" href="/css/buttercat.css">
+</head>
+<body>
+    <div id="map"></div>
+
+    <div id="sidebar">
+        <div id="coordinates" class="sidebar-card">
+            <span id="coords-display">X: 0, Z: 0</span>
+        </div>
+
+        <div id="player-list-panel" class="sidebar-card">
+            <div id="player-list-header">
+                <span id="player-count-display">Players: 0</span>
+                <button id="player-list-toggle" title="Toggle player list">-</button>
+            </div>
+            <div id="player-list-content">
+                <ul id="player-list"></ul>
+            </div>
+        </div>
+
+        <div id="connection-status" class="disconnected">Disconnected</div>
+    </div>
+
+    <script>window.BUTTERCAT = {serverName: "{{.ServerName}}", version: "{{.Version}}", maxPlayers: {{.MaxPlayers}}};</script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="/js/buttercat.js"></script>
+</body>
+</html>

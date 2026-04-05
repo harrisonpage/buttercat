@@ -1,0 +1,13 @@
+[Unit]
+Description=Buttercat map server
+After=network.target
+
+[Service]
+Type=simple
+User=hytale
+ExecStart=/thin/hytale/buttercat-httpd -export /thin/hytale/export
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,45 @@
+---
+- name: Deploy buttercat
+  hosts: rabbit
+  become: true
+
+  vars:
+    hytale_dir: /thin/hytale
+    mods_dir: "{{ hytale_dir }}/mods"
+    dev_dir: "{{ hytale_dir }}/dev/buttercat"
+
+  tasks:
+    - name: Copy plugin JAR to mods
+      shell: "cp {{ dev_dir }}/plugin/build/libs/*.jar {{ mods_dir }}/"
+
+    - name: Fix plugin JAR ownership
+      file:
+        path: "{{ mods_dir }}"
+        owner: hytale
+        group: hytale
+        recurse: true
+
+    - name: Copy buttercat-httpd binary
+      copy:
+        src: "{{ playbook_dir }}/../server/buttercat-httpd"
+        dest: "{{ hytale_dir }}/buttercat-httpd"
+        owner: hytale
+        group: hytale
+        mode: "0755"
+
+    - name: Install systemd unit
+      copy:
+        src: "{{ playbook_dir }}/buttercat-httpd.service"
+        dest: /etc/systemd/system/buttercat-httpd.service
+      register: unit
+
+    - name: Reload systemd
+      systemd:
+        daemon_reload: true
+      when: unit.changed
+
+    - name: Restart buttercat-httpd
+      systemd:
+        name: buttercat-httpd
+        enabled: true
+        state: restarted

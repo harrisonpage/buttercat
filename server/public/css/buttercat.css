@@ -1,0 +1,253 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #0f1117;
+}
+
+/* -- Sidebar (right side, stacked vertically) -- */
+
+#sidebar {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 220px;
+    pointer-events: none;
+}
+
+#sidebar > * {
+    pointer-events: auto;
+}
+
+.sidebar-card {
+    background: rgba(15, 17, 23, 0.88);
+    border: 1px solid rgba(56, 189, 148, 0.2);
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: #b0bec5;
+    font-size: 13px;
+    backdrop-filter: blur(8px);
+}
+
+/* -- Coordinates -- */
+
+#coordinates {
+    color: #78909c;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+/* -- Connection Status -- */
+
+#connection-status {
+    margin-top: auto;
+    margin-bottom: 25px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    text-align: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+#connection-status.connected {
+    display: none;
+}
+
+#connection-status.disconnected {
+    background: rgba(239, 83, 80, 0.15);
+    border: 1px solid rgba(239, 83, 80, 0.3);
+    color: #ef5350;
+}
+
+#connection-status.connecting {
+    background: rgba(255, 183, 77, 0.15);
+    border: 1px solid rgba(255, 183, 77, 0.3);
+    color: #ffb74d;
+}
+
+/* -- Player List -- */
+
+#player-list-panel {
+    padding: 0;
+    overflow: hidden;
+}
+
+#player-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(56, 189, 148, 0.15);
+    color: #b0bec5;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+#player-list-toggle {
+    background: rgba(56, 189, 148, 0.1);
+    border: 1px solid rgba(56, 189, 148, 0.2);
+    border-radius: 3px;
+    color: #38bd94;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1;
+}
+
+#player-list-toggle:hover {
+    background: rgba(56, 189, 148, 0.2);
+}
+
+#player-list-content {
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+#player-list-content.collapsed {
+    display: none;
+}
+
+#player-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#player-list li {
+    padding: 8px 12px;
+    color: #b0bec5;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    transition: background 0.15s;
+}
+
+#player-list li:last-child {
+    border-bottom: none;
+}
+
+#player-list li:hover {
+    background: rgba(56, 189, 148, 0.08);
+}
+
+#player-list li .player-icon {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 10px solid #38bd94;
+    flex-shrink: 0;
+}
+
+#player-list li .player-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#player-list li .player-coords {
+    font-size: 10px;
+    color: #546e7a;
+    white-space: nowrap;
+}
+
+.player-list-empty {
+    padding: 12px;
+    color: #546e7a;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* -- Player Markers on Map -- */
+
+.player-marker {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-arrow {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 16px solid #38bd94;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
+    transform-origin: center center;
+}
+
+.player-tooltip {
+    background: rgba(15, 17, 23, 0.92);
+    border: 1px solid rgba(56, 189, 148, 0.25);
+    border-radius: 4px;
+    padding: 4px 8px;
+    color: #b0bec5;
+    font-size: 11px;
+    font-family: 'SF Mono', 'Menlo', monospace;
+    white-space: nowrap;
+}
+
+/* -- Leaflet Overrides -- */
+
+.leaflet-container {
+    background: #0f1117;
+}
+
+.leaflet-control-zoom {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.leaflet-control-zoom a {
+    background: rgba(15, 17, 23, 0.88) !important;
+    border: 1px solid rgba(56, 189, 148, 0.2) !important;
+    color: #38bd94 !important;
+    font-size: 16px !important;
+    width: 30px !important;
+    height: 30px !important;
+    line-height: 28px !important;
+}
+
+.leaflet-control-zoom a:hover {
+    background: rgba(56, 189, 148, 0.15) !important;
+}
+
+.leaflet-control-attribution {
+    background: rgba(15, 17, 23, 0.7) !important;
+    color: #546e7a !important;
+    font-size: 10px !important;
+    font-family: 'SF Mono', 'Menlo', monospace !important;
+}
+
+.leaflet-control-attribution a {
+    color: #38bd94 !important;
+}
