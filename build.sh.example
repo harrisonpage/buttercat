@@ -1,22 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# -- Configuration --
-REMOTE="hytale@your-server"
-REMOTE_DEV="/path/to/dev/buttercat"
+echo "==> Building plugin..."
+cd plugin && ./gradlew shadowJar
+cd ..
 
-# Sync plugin source to remote and build with Gradle
-echo "==> Syncing plugin source..."
-ssh "$REMOTE" "mkdir -p $REMOTE_DEV/plugin"
-rsync -az --delete \
-  --exclude='.gradle' --exclude='build' \
-  plugin/ "$REMOTE:$REMOTE_DEV/plugin/"
-
-echo "==> Building plugin on remote..."
-ssh "$REMOTE" "cd $REMOTE_DEV/plugin && \
-  JAVA_HOME=/path/to/jdk ./gradlew shadowJar"
-
-# Cross-compile Go server locally
-echo "==> Building buttercat-httpd (linux/amd64)..."
-cd server && GOOS=linux GOARCH=amd64 go build -o buttercat-httpd .
-echo "==> Built server/buttercat-httpd"
+echo "==> Building buttercat-httpd..."
+cd server && go build -o buttercat-httpd .
+echo "==> Done"
