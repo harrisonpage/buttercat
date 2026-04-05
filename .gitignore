@@ -12,7 +12,11 @@ server/buttercat-httpd
 # Private deploy scripts (see *.example files)
 build.sh
 publish.sh
+release.sh
 ansible/inventory.ini
+
+# Release artifacts
+dist/
 
 # Python venv
 .venv/
