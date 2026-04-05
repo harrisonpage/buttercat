@@ -164,3 +164,7 @@ Plugin hello: {"type":"hello","version":1,...}
 ## License
 
 MIT
+
+## References
+
+Absolutely inspired by [VoxelAtlas](https://github.com/boul2gom/VoxelAtlas) which was archived by the owner on Mar 30, 2026.
